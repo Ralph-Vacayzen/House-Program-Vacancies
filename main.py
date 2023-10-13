@@ -12,27 +12,25 @@ st.info('A tool to determine which properties are vacant.')
 
 option = st.selectbox('Which house program are you looking into?',['Golf Carts','Bikes'])
 
+st.divider()
+
+file_oc = st.file_uploader('Occupancy.csv','csv')
+if file_oc is not None:
+    oc = pd.read_csv(file_oc, index_col=False)
+
+    unit      = st.selectbox('Unit Column',oc.columns.unique())
+    arrival   = st.selectbox('Arrival Column',oc.columns.unique())
+    departure = st.selectbox('Departure Column',oc.columns.unique())
+
+    oc = oc[[unit, arrival, departure]]
+    oc.columns = ['unit','arrival','departure']
+
+st.divider()
 
 if option == 'Golf Carts':
 
-    st.subheader('Required reports')
-
-    st.write('Current Golf Cart Program')
-    with st.expander(label='How to pull report'):
-        st.write('[GART - Partner Program Register](https://docs.google.com/spreadsheets/d/1jm0PfzBh_2rJy7LnFvGyCr-KqOKaMdp8nCj4-vk8xrI/edit#gid=723755011)')
-        st.video('https://youtu.be/W6Hl5DsI6Go')
-
-    st.write('Occupancy')
-    with st.expander(label='How to create report'):
-        st.download_button('Download Occupancy Template', pd.read_csv('template.csv', index_col=False).to_csv(index=False),'template.csv',use_container_width=True)
-        st.video('https://youtu.be/gpmI9IL6GDg')
-
-    left, right = st.columns(2)
-    file_gp = left.file_uploader('Partner Program Register (PPR) - GART.csv','csv')
+    file_gp = st.file_uploader('Partner Program Register (PPR) - GART.csv','csv')
     if file_gp is not None: gp = pd.read_csv(file_gp, index_col=False)
-
-    file_oc = right.file_uploader('template.csv','csv')
-    if file_oc is not None: oc = pd.read_csv(file_oc, index_col=False)
 
     if (file_gp is not None and file_oc is not None):
         st.divider()
@@ -77,24 +75,8 @@ if option == 'Golf Carts':
 
 if option == 'Bikes':
 
-    st.subheader('Required reports')
-
-    st.write('Current Bike Program')
-    with st.expander(label='How to pull report'):
-        st.write('[GART - Partner Program Register](https://docs.google.com/spreadsheets/d/1jm0PfzBh_2rJy7LnFvGyCr-KqOKaMdp8nCj4-vk8xrI/edit#gid=723755011)')
-        st.video('https://youtu.be/W6Hl5DsI6Go')
-
-    st.write('Occupancy')
-    with st.expander(label='How to create report'):
-        st.download_button('Download Occupancy Template', pd.read_csv('template.csv', index_col=False).to_csv(index=False),'template.csv',use_container_width=True)
-        st.video('https://youtu.be/gpmI9IL6GDg')
-
-    left, right = st.columns(2)
-    file_bp = left.file_uploader('Partner Program Register (PPR) - BIKE.csv','csv')
+    file_bp = st.file_uploader('Partner Program Register (PPR) - BIKE.csv','csv')
     if file_bp is not None: gp = pd.read_csv(file_bp, index_col=False)
-
-    file_oc = right.file_uploader('template.csv','csv')
-    if file_oc is not None: oc = pd.read_csv(file_oc, index_col=False)
 
     if (file_bp is not None and file_oc is not None):
         st.divider()
